@@ -1,0 +1,41 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="YaMuPlus.Ui.HelpWindow"
+        Classes="popover"
+        Width="560" SizeToContent="Height"
+        WindowStartupLocation="CenterOwner"
+        CanResize="False" ShowInTaskbar="False"
+        ExtendClientAreaToDecorationsHint="True"
+        ExtendClientAreaChromeHints="PreferSystemChrome"
+        ExtendClientAreaTitleBarHeightHint="32">
+
+    <Window.Styles>
+        <!-- a dialog needs only the Close caption button -->
+        <Style Selector="CaptionButtons /template/ Button#PART_RestoreButton, CaptionButtons /template/ Button#PART_MinimizeButton">
+            <Setter Property="IsVisible" Value="False" />
+        </Style>
+    </Window.Styles>
+
+    <!-- the top 32 px are the title bar, as in the main window -->
+    <StackPanel Margin="32,40,32,28" Spacing="20">
+        <TextBlock x:Name="TitleText" Classes="h1" FontSize="22" />
+        <ItemsControl x:Name="Items">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel Spacing="12" />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate x:DataType="x:String">
+                    <DockPanel>
+                        <Ellipse Width="6" Height="6" Fill="{DynamicResource YmAccent}"
+                                 VerticalAlignment="Top" Margin="0,7,12,0" />
+                        <TextBlock Text="{Binding}" TextWrapping="Wrap" LineHeight="20" />
+                    </DockPanel>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+        <Button x:Name="CloseBtn" Classes="accent" MinWidth="120" HorizontalAlignment="Right"
+                IsDefault="True" IsCancel="True" Click="OnClose" />
+    </StackPanel>
+</Window>

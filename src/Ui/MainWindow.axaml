@@ -1,0 +1,100 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="YaMuPlus.Ui.MainWindow"
+        Title="YaMu+" Width="660" SizeToContent="Height"
+        WindowStartupLocation="CenterScreen"
+        CanResize="False"
+        ExtendClientAreaToDecorationsHint="True"
+        ExtendClientAreaChromeHints="PreferSystemChrome"
+        ExtendClientAreaTitleBarHeightHint="32"
+        DragDrop.AllowDrop="True">
+
+    <Window.Styles>
+        <!-- the window size is fixed, so no Maximize button -->
+        <Style Selector="CaptionButtons /template/ Button#PART_RestoreButton">
+            <Setter Property="IsVisible" Value="False" />
+        </Style>
+        <!-- icon button: a 40×40 circle, the icon stays yellow in every state (the Fluent template recolors content) -->
+        <Style Selector="Button.icon">
+            <Setter Property="Width" Value="40" />
+            <Setter Property="Height" Value="40" />
+            <Setter Property="Padding" Value="0" />
+        </Style>
+        <Style Selector="Button.icon TextBlock">
+            <Setter Property="Foreground" Value="{DynamicResource YmAccent}" />
+        </Style>
+        <Style Selector="Button.icon PathIcon">
+            <Setter Property="Foreground" Value="{DynamicResource YmAccent}" />
+        </Style>
+        <Style Selector="Ellipse#StatusDot">
+            <Setter Property="Fill" Value="#4DFFFFFF" />
+        </Style>
+        <Style Selector="Ellipse#StatusDot.on">
+            <Setter Property="Fill" Value="{DynamicResource YmSuccess}" />
+        </Style>
+        <!-- the path does not lead to a suitable app: red border in every state of the field -->
+        <Style Selector="TextBox.error /template/ Border#PART_BorderElement, TextBox.error:pointerover /template/ Border#PART_BorderElement, TextBox.error:focus /template/ Border#PART_BorderElement">
+            <Setter Property="BorderBrush" Value="{DynamicResource YmError}" />
+            <Setter Property="BorderThickness" Value="1" />
+        </Style>
+    </Window.Styles>
+
+    <!-- the top 32 px are the title bar: the window caption buttons are drawn over the content -->
+    <StackPanel Margin="32,40,32,28" Spacing="22">
+
+        <DockPanel>
+            <!-- on the right: round icon buttons for help and the project page -->
+            <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" Spacing="10" VerticalAlignment="Center">
+                <Button x:Name="HelpBtn" Classes="icon" Click="OnHelp">
+                    <TextBlock Text="?" FontSize="20" FontWeight="Bold" />
+                </Button>
+                <Button x:Name="RepoBtn" Classes="icon" Click="OnRepo">
+                    <!-- GitHub mark (octicons mark-github, 16×16) -->
+                    <PathIcon Width="20" Height="20" Data="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z" />
+                </Button>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Spacing="14">
+                <Image Source="/Assets/logo.png" Width="52" Height="52" Margin="-4,0,0,0" RenderOptions.BitmapInterpolationMode="HighQuality" />
+                <TextBlock x:Name="TitleText" Classes="h1" VerticalAlignment="Center" />
+                <TextBlock x:Name="VersionText" Classes="secondary" VerticalAlignment="Center" Margin="0,6,0,0" />
+            </StackPanel>
+        </DockPanel>
+
+        <Grid ColumnDefinitions="Auto,*,Auto,Auto" RowDefinitions="Auto,12,Auto,8,Auto,12,Auto,Auto">
+            <TextBlock x:Name="LangLabel" Grid.Row="0" Grid.Column="0" Classes="secondary" VerticalAlignment="Center" Margin="0,0,16,0" />
+            <ComboBox x:Name="LangBox" Grid.Row="0" Grid.Column="1" MinWidth="200" HorizontalAlignment="Left"
+                      SelectionChanged="OnLangChanged" />
+
+            <TextBlock x:Name="SaveLabel" Grid.Row="2" Grid.Column="0" Classes="secondary" VerticalAlignment="Center" Margin="0,0,16,0" />
+            <ComboBox x:Name="SaveBox" Grid.Row="2" Grid.Column="1" MinWidth="200" HorizontalAlignment="Left"
+                      SelectionChanged="OnSaveModeChanged" />
+            <CheckBox x:Name="TrayLaunchBox" Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="3"
+                      IsCheckedChanged="OnTrayLaunchChanged" />
+
+            <TextBlock x:Name="PathLabel" Grid.Row="6" Grid.Column="0" Classes="secondary" VerticalAlignment="Center" Margin="0,0,16,0" />
+            <TextBox x:Name="PathBox" Grid.Row="6" Grid.Column="1" Margin="0,0,10,0" TextChanged="OnPathChanged" />
+            <Button x:Name="FindBtn" Grid.Row="6" Grid.Column="2" Margin="0,0,10,0" Click="OnFind" />
+            <Button x:Name="BrowseBtn" Grid.Row="6" Grid.Column="3" Click="OnBrowse" />
+            <TextBlock x:Name="PathError" Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="3" IsVisible="False"
+                       Foreground="{DynamicResource YmError}" FontSize="12" Margin="16,6,0,0" TextWrapping="Wrap" />
+        </Grid>
+
+        <StackPanel Orientation="Horizontal" Spacing="10">
+            <Button x:Name="LaunchBtn" Classes="accent" MinWidth="180" Click="OnLaunch" />
+            <Button x:Name="TrayBtn" Click="OnToTray" />
+            <Button x:Name="QuitBtn" MinWidth="110" Click="OnQuit" />
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal" Spacing="10">
+            <Ellipse x:Name="StatusDot" Width="8" Height="8" VerticalAlignment="Center" />
+            <TextBlock x:Name="StatusText" Classes="secondary" TextWrapping="Wrap" MaxWidth="560" />
+        </StackPanel>
+
+        <Border Background="{DynamicResource YmBgContent}" CornerRadius="16" Padding="16,12">
+            <ScrollViewer x:Name="LogScroll" Height="170">
+                <SelectableTextBlock x:Name="LogText" Classes="secondary" TextWrapping="Wrap"
+                                     FontFamily="Menlo,Consolas,monospace" FontSize="11.5" />
+            </ScrollViewer>
+        </Border>
+    </StackPanel>
+</Window>

@@ -1,0 +1,47 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <AssemblyName>YaMuPlus</AssemblyName>
+    <RootNamespace>YaMuPlus</RootNamespace>
+    <Product>YaMu+</Product>
+    <!-- the only place with the version number: exe, program window, bundle Info.plist (filled in by build.sh and build.ps1) -->
+    <Version>1.0.0</Version>
+    <!-- build number: Unix time in seconds (UTC); grows on its own and does not depend on the build machine's time zone.
+         build.sh and build.ps1 pass their own (-p:BuildNumber) so that the same number goes into Info.plist.
+         Windows FileVersion is 4 numbers of 16 bits each and cannot hold it, so it goes to ProductVersion (1.0.0+number, as in SemVer) -->
+    <BuildNumber Condition="'$(BuildNumber)' == ''">$([System.DateTimeOffset]::UtcNow.ToUnixTimeSeconds())</BuildNumber>
+    <InformationalVersion>$(Version)+$(BuildNumber)</InformationalVersion>
+    <!-- the same ProductVersion with or without .git: otherwise the SDK appends the commit hash in a git checkout -->
+    <IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
+    <AssemblyTitle>YaMu+</AssemblyTitle>
+    <Company>YaMu+</Company>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <ApplicationIcon>Assets\icon.ico</ApplicationIcon>
+    <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
+    <PublishSingleFile>true</PublishSingleFile>
+    <!-- Windows: native DLLs inside the exe (extracted on launch). macOS: .dylib files sit in the bundle next to
+         the binary; the user still sees a single .app, with no extraction and no leftovers from it -->
+    <IncludeNativeLibrariesForSelfExtract Condition="!$(RuntimeIdentifier.StartsWith('osx'))">true</IncludeNativeLibrariesForSelfExtract>
+  </PropertyGroup>
+  <ItemGroup>
+    <!-- with equal versions, the build with the larger number is newer (Core/SingleInstance.cs) -->
+    <AssemblyMetadata Include="BuildNumber" Value="$(BuildNumber)" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Avalonia" Version="11.2.2" />
+    <PackageReference Include="Avalonia.Desktop" Version="11.2.2" />
+    <PackageReference Include="Avalonia.Themes.Fluent" Version="11.2.2" />
+    <PackageReference Include="Avalonia.Fonts.Inter" Version="11.2.2" />
+  </ItemGroup>
+  <ItemGroup>
+    <AvaloniaResource Include="Assets/icon.ico" />
+    <AvaloniaResource Include="Assets/logo.png" />
+    <AvaloniaResource Include="Assets/tray-mac.png" />
+    <EmbeddedResource Include="Assets/payload.js" LogicalName="YaMuPlus.payload.js" />
+    <EmbeddedResource Include="Assets/locales/ru.json" LogicalName="YaMuPlus.locales.ru.json" />
+    <EmbeddedResource Include="Assets/locales/en.json" LogicalName="YaMuPlus.locales.en.json" />
+  </ItemGroup>
+</Project>

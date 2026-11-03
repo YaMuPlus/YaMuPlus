@@ -1,0 +1,10 @@
+# build
+src/bin/
+src/obj/
+src/.avalonia-build-tasks/
+dist/
+
+.DS_Store
+.idea/
+.vs/
+*.user

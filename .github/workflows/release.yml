@@ -1,0 +1,26 @@
+# Release on GitHub: bump <Version> in src/YaMuPlus.csproj, commit, then push a tag with the same version:
+#   git tag v1.0.0 && git push origin v1.0.0
+# Both releases are built in Docker by build-docker.sh, the same script as a local build, and attached to a
+# GitHub release named after the tag.
+name: release
+
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - name: Check tag matches version
+        run: |
+          v=$(sed -n 's:.*<Version>\(.*\)</Version>.*:\1:p' src/YaMuPlus.csproj)
+          [ "v$v" = "$GITHUB_REF_NAME" ] || { echo "tag $GITHUB_REF_NAME does not match <Version>$v</Version>"; exit 1; }
+      - run: sh build-docker.sh
+      - env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release create "$GITHUB_REF_NAME" dist/* --title "$GITHUB_REF_NAME" --generate-notes

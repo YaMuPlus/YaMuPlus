@@ -1,0 +1,143 @@
+<Application xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="YaMuPlus.App"
+             Name="YaMu+"
+             RequestedThemeVariant="Dark">
+
+    <!-- Styled after the Yandex Music desktop app: values come from its dark theme CSS variables
+         (.ym-dark-theme, ym-* variables). Font: Inter, since the proprietary YS Text cannot be embedded. -->
+    <Application.Resources>
+        <SolidColorBrush x:Key="YmBgBasic" Color="#000000" />          <!-- background-color-primary-enabled-basic -->
+        <SolidColorBrush x:Key="YmBgContent" Color="#121212" />        <!-- …-content -->
+        <SolidColorBrush x:Key="YmBgPopover" Color="#1A1A1A" />        <!-- …-popover -->
+        <SolidColorBrush x:Key="YmText" Color="#E6E6E6" />
+        <SolidColorBrush x:Key="YmTextSecondary" Color="#80FFFFFF" />  <!-- hsla(0,0%,100%,.5) -->
+        <SolidColorBrush x:Key="YmSuccess" Color="#37C84F" />
+        <SolidColorBrush x:Key="YmError" Color="#FB2904" />
+        <SolidColorBrush x:Key="YmAccent" Color="#FFFF00" />           <!-- controls-color-primary: icons, bullets -->
+
+        <!-- accent (selection, Fluent indicators): yellow controls-color-primary -->
+        <Color x:Key="SystemAccentColor">#FFFF00</Color>
+        <Color x:Key="SystemAccentColorDark1">#DADA0B</Color>
+        <Color x:Key="SystemAccentColorDark2">#B5B50A</Color>
+        <Color x:Key="SystemAccentColorDark3">#909008</Color>
+        <Color x:Key="SystemAccentColorLight1">#FFFF80</Color>
+        <Color x:Key="SystemAccentColorLight2">#FFFFA6</Color>
+        <Color x:Key="SystemAccentColorLight3">#FFFFCC</Color>
+
+        <!-- regular buttons: controls-color-secondary-default (white at 8/12/24 %) -->
+        <SolidColorBrush x:Key="ButtonBackground" Color="#14FFFFFF" />
+        <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="#1FFFFFFF" />
+        <SolidColorBrush x:Key="ButtonBackgroundPressed" Color="#3DFFFFFF" />
+        <SolidColorBrush x:Key="ButtonBackgroundDisabled" Color="#14FFFFFF" />
+        <SolidColorBrush x:Key="ButtonForeground" Color="#E6E6E6" />
+        <SolidColorBrush x:Key="ButtonForegroundPointerOver" Color="#E6E6E6" />
+        <SolidColorBrush x:Key="ButtonForegroundPressed" Color="#E6E6E6" />
+        <SolidColorBrush x:Key="ButtonForegroundDisabled" Color="#3DFFFFFF" />
+        <SolidColorBrush x:Key="ButtonBorderBrush" Color="Transparent" />
+        <SolidColorBrush x:Key="ButtonBorderBrushPointerOver" Color="Transparent" />
+        <SolidColorBrush x:Key="ButtonBorderBrushPressed" Color="Transparent" />
+        <SolidColorBrush x:Key="ButtonBorderBrushDisabled" Color="Transparent" />
+
+        <!-- primary button (Classes="accent"): controls-color-primary-default, black text -->
+        <SolidColorBrush x:Key="AccentButtonBackground" Color="#FFFF00" />
+        <SolidColorBrush x:Key="AccentButtonBackgroundPointerOver" Color="#DADA0B" />
+        <SolidColorBrush x:Key="AccentButtonBackgroundPressed" Color="#FFFF80" />
+        <SolidColorBrush x:Key="AccentButtonBackgroundDisabled" Color="#333333" />
+        <SolidColorBrush x:Key="AccentButtonForeground" Color="#000000" />
+        <SolidColorBrush x:Key="AccentButtonForegroundPointerOver" Color="#000000" />
+        <SolidColorBrush x:Key="AccentButtonForegroundPressed" Color="#000000" />
+        <SolidColorBrush x:Key="AccentButtonForegroundDisabled" Color="#4D4D4D" />
+        <SolidColorBrush x:Key="AccentButtonBorderBrush" Color="Transparent" />
+        <SolidColorBrush x:Key="AccentButtonBorderBrushPointerOver" Color="Transparent" />
+        <SolidColorBrush x:Key="AccentButtonBorderBrushPressed" Color="Transparent" />
+        <SolidColorBrush x:Key="AccentButtonBorderBrushDisabled" Color="Transparent" />
+
+        <!-- text boxes: fill instead of border, border only when focused -->
+        <SolidColorBrush x:Key="TextControlBackground" Color="#14FFFFFF" />
+        <SolidColorBrush x:Key="TextControlBackgroundPointerOver" Color="#1FFFFFFF" />
+        <SolidColorBrush x:Key="TextControlBackgroundFocused" Color="#1FFFFFFF" />
+        <SolidColorBrush x:Key="TextControlBackgroundDisabled" Color="#0AFFFFFF" />
+        <SolidColorBrush x:Key="TextControlForeground" Color="#E6E6E6" />
+        <SolidColorBrush x:Key="TextControlForegroundPointerOver" Color="#E6E6E6" />
+        <SolidColorBrush x:Key="TextControlForegroundFocused" Color="#E6E6E6" />
+        <SolidColorBrush x:Key="TextControlForegroundDisabled" Color="#4D4D4D" />
+        <SolidColorBrush x:Key="TextControlBorderBrush" Color="Transparent" />
+        <SolidColorBrush x:Key="TextControlBorderBrushPointerOver" Color="Transparent" />
+        <SolidColorBrush x:Key="TextControlBorderBrushFocused" Color="#80FFFFFF" />
+        <SolidColorBrush x:Key="TextControlBorderBrushDisabled" Color="Transparent" />
+        <SolidColorBrush x:Key="TextControlPlaceholderForeground" Color="#80FFFFFF" />
+        <SolidColorBrush x:Key="TextControlPlaceholderForegroundPointerOver" Color="#80FFFFFF" />
+        <SolidColorBrush x:Key="TextControlPlaceholderForegroundFocused" Color="#80FFFFFF" />
+        <SolidColorBrush x:Key="TextControlSelectionHighlightColor" Color="#52FFFFFF" />
+        <Thickness x:Key="TextControlBorderThemeThicknessFocused">1</Thickness>
+
+        <!-- combo box -->
+        <SolidColorBrush x:Key="ComboBoxBackground" Color="#14FFFFFF" />
+        <SolidColorBrush x:Key="ComboBoxBackgroundPointerOver" Color="#1FFFFFFF" />
+        <SolidColorBrush x:Key="ComboBoxBackgroundPressed" Color="#3DFFFFFF" />
+        <SolidColorBrush x:Key="ComboBoxBackgroundDisabled" Color="#0AFFFFFF" />
+        <SolidColorBrush x:Key="ComboBoxBorderBrush" Color="Transparent" />
+        <SolidColorBrush x:Key="ComboBoxBorderBrushPointerOver" Color="Transparent" />
+        <SolidColorBrush x:Key="ComboBoxBorderBrushPressed" Color="Transparent" />
+        <SolidColorBrush x:Key="ComboBoxBorderBrushDisabled" Color="Transparent" />
+        <SolidColorBrush x:Key="ComboBoxForeground" Color="#E6E6E6" />
+        <SolidColorBrush x:Key="ComboBoxDropDownGlyphForeground" Color="#80FFFFFF" />
+        <SolidColorBrush x:Key="ComboBoxDropDownBackground" Color="#1A1A1A" />
+        <SolidColorBrush x:Key="ComboBoxDropDownBorderBrush" Color="#14FFFFFF" />
+        <SolidColorBrush x:Key="ComboBoxItemBackgroundPointerOver" Color="#14FFFFFF" />
+        <SolidColorBrush x:Key="ComboBoxItemBackgroundPressed" Color="#3DFFFFFF" />
+        <SolidColorBrush x:Key="ComboBoxItemBackgroundSelected" Color="#1FFFFFFF" />
+        <SolidColorBrush x:Key="ComboBoxItemBackgroundSelectedPointerOver" Color="#29FFFFFF" />
+        <SolidColorBrush x:Key="ComboBoxItemBackgroundSelectedPressed" Color="#3DFFFFFF" />
+    </Application.Resources>
+
+    <Application.Styles>
+        <FluentTheme />
+
+        <Style Selector="Window">
+            <Setter Property="FontFamily" Value="fonts:Inter#Inter, $Default" />
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="Foreground" Value="{DynamicResource YmText}" />
+            <Setter Property="Background" Value="{DynamicResource YmBgBasic}" />
+        </Style>
+        <!-- dialogs use the popover color -->
+        <Style Selector="Window.popover">
+            <Setter Property="Background" Value="{DynamicResource YmBgPopover}" />
+        </Style>
+
+        <!-- buttons and text boxes are 40 px high "pills", as in the app -->
+        <Style Selector="Button">
+            <Setter Property="CornerRadius" Value="100" />
+            <Setter Property="MinHeight" Value="40" />
+            <Setter Property="Padding" Value="20,0" />
+            <Setter Property="FontWeight" Value="Medium" />
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+        </Style>
+        <Style Selector="TextBox">
+            <Setter Property="CornerRadius" Value="100" />
+            <Setter Property="MinHeight" Value="40" />
+            <Setter Property="Padding" Value="16,0" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+        </Style>
+        <Style Selector="ComboBox">
+            <Setter Property="CornerRadius" Value="100" />
+            <Setter Property="MinHeight" Value="40" />
+            <Setter Property="Padding" Value="16,0,12,0" />
+        </Style>
+        <Style Selector="ComboBox /template/ Border#PopupBorder">
+            <Setter Property="CornerRadius" Value="12" />
+        </Style>
+
+        <Style Selector="TextBlock.h1">
+            <Setter Property="FontSize" Value="26" />
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="Foreground" Value="#FFFFFF" />
+        </Style>
+        <Style Selector="TextBlock.secondary, SelectableTextBlock.secondary">
+            <Setter Property="Foreground" Value="{DynamicResource YmTextSecondary}" />
+            <Setter Property="FontSize" Value="13" />
+        </Style>
+    </Application.Styles>
+</Application>
