@@ -1,8 +1,12 @@
+using System.Linq;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using YaMuPlus.Core;
 
 namespace YaMuPlus.Ui;
+
+/// <summary>One feature in the help: where its menu item is and what it does.</summary>
+public record HelpItem(string Where, string What);
 
 /// <summary>Help: the list of features in the window language. Enter and Esc close it.</summary>
 public partial class HelpWindow : Window
@@ -19,7 +23,8 @@ public partial class HelpWindow : Window
     {
         Icon = App.WindowIcon;
         Title = TitleText.Text = loc["help_title"];
-        Items.ItemsSource = loc["help_items"].Split('\n');
+        // one line per feature: "where|what"
+        Items.ItemsSource = loc["help_items"].Split('\n').Select(l => l.Split('|', 2)).Select(p => new HelpItem(p[0], p[1]));
         CloseBtn.Content = loc["btn_close"];
     }
 

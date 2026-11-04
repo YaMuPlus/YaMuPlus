@@ -1,7 +1,7 @@
 <Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:ui="using:YaMuPlus.Ui"
         x:Class="YaMuPlus.Ui.HelpWindow"
-        Classes="popover"
         Width="560" SizeToContent="Height"
         WindowStartupLocation="CenterOwner"
         CanResize="False" ShowInTaskbar="False"
@@ -14,27 +14,36 @@
         <Style Selector="CaptionButtons /template/ Button#PART_RestoreButton, CaptionButtons /template/ Button#PART_MinimizeButton">
             <Setter Property="IsVisible" Value="False" />
         </Style>
+        <!-- dividers between the rows, as in the settings card of the main window -->
+        <Style Selector="Rectangle.divider">
+            <Setter Property="Height" Value="1" />
+            <Setter Property="Margin" Value="20,0" />
+            <Setter Property="Fill" Value="#14FFFFFF" />
+        </Style>
+        <Style Selector="ItemsControl#Items ContentPresenter:nth-child(1) Rectangle.divider">
+            <Setter Property="IsVisible" Value="False" />
+        </Style>
     </Window.Styles>
 
     <!-- the top 32 px are the title bar, as in the main window -->
     <StackPanel Margin="32,40,32,28" Spacing="20">
         <TextBlock x:Name="TitleText" Classes="h1" FontSize="22" />
-        <ItemsControl x:Name="Items">
-            <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <StackPanel Spacing="12" />
-                </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
-            <ItemsControl.ItemTemplate>
-                <DataTemplate x:DataType="x:String">
-                    <DockPanel>
-                        <Ellipse Width="6" Height="6" Fill="{DynamicResource YmAccent}"
-                                 VerticalAlignment="Top" Margin="0,7,12,0" />
-                        <TextBlock Text="{Binding}" TextWrapping="Wrap" LineHeight="20" />
-                    </DockPanel>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
+        <!-- one row per feature: where the menu item is, then what it does -->
+        <Border Background="{DynamicResource YmBgContent}" CornerRadius="20" Padding="0,4">
+            <ItemsControl x:Name="Items">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate x:DataType="ui:HelpItem">
+                        <StackPanel>
+                            <Rectangle Classes="divider" />
+                            <StackPanel Margin="20,14" Spacing="4">
+                                <TextBlock Text="{Binding Where}" FontWeight="Medium" TextWrapping="Wrap" />
+                                <TextBlock Text="{Binding What}" Classes="secondary" TextWrapping="Wrap" />
+                            </StackPanel>
+                        </StackPanel>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </Border>
         <Button x:Name="CloseBtn" Classes="accent" MinWidth="120" HorizontalAlignment="Right"
                 IsDefault="True" IsCancel="True" Click="OnClose" />
     </StackPanel>

@@ -9,7 +9,6 @@
     <Application.Resources>
         <SolidColorBrush x:Key="YmBgBasic" Color="#000000" />          <!-- background-color-primary-enabled-basic -->
         <SolidColorBrush x:Key="YmBgContent" Color="#121212" />        <!-- …-content -->
-        <SolidColorBrush x:Key="YmBgPopover" Color="#1A1A1A" />        <!-- …-popover -->
         <SolidColorBrush x:Key="YmText" Color="#E6E6E6" />
         <SolidColorBrush x:Key="YmTextSecondary" Color="#80FFFFFF" />  <!-- hsla(0,0%,100%,.5) -->
         <SolidColorBrush x:Key="YmSuccess" Color="#37C84F" />
@@ -100,10 +99,6 @@
             <Setter Property="FontSize" Value="14" />
             <Setter Property="Foreground" Value="{DynamicResource YmText}" />
             <Setter Property="Background" Value="{DynamicResource YmBgBasic}" />
-        </Style>
-        <!-- dialogs use the popover color -->
-        <Style Selector="Window.popover">
-            <Setter Property="Background" Value="{DynamicResource YmBgPopover}" />
         </Style>
 
         <!-- buttons and text boxes are 40 px high "pills", as in the app -->

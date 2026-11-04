@@ -9,6 +9,60 @@
         ExtendClientAreaTitleBarHeightHint="32"
         DragDrop.AllowDrop="True">
 
+    <Window.Resources>
+        <SolidColorBrush x:Key="YmDivider" Color="#14FFFFFF" />
+        <!-- update button icons (octicons sync and download, 16×16) -->
+        <StreamGeometry x:Key="IconSync">M1.705 8.005a.75.75 0 0 1 .834.656 5.5 5.5 0 0 0 9.592 2.97l-1.204-1.204a.25.25 0 0 1 .177-.427h3.646a.25.25 0 0 1 .25.25v3.646a.25.25 0 0 1-.427.177l-1.38-1.38A7.002 7.002 0 0 1 1.05 8.84a.75.75 0 0 1 .656-.834ZM8 2.5a5.487 5.487 0 0 0-4.131 1.869l1.204 1.204A.25.25 0 0 1 4.896 6H1.25A.25.25 0 0 1 1 5.75V2.104a.25.25 0 0 1 .427-.177l1.38 1.38A7.002 7.002 0 0 1 14.95 7.16a.75.75 0 0 1-1.49.178A5.5 5.5 0 0 0 8 2.5Z</StreamGeometry>
+        <StreamGeometry x:Key="IconDownload">M2.75 14A1.75 1.75 0 0 1 1 12.25v-2.5a.75.75 0 0 1 1.5 0v2.5c0 .138.112.25.25.25h10.5a.25.25 0 0 0 .25-.25v-2.5a.75.75 0 0 1 1.5 0v2.5A1.75 1.75 0 0 1 13.25 14ZM7.25 7.689V2a.75.75 0 0 1 1.5 0v5.689l1.97-1.969a.749.749 0 1 1 1.06 1.06l-3.25 3.25a.749.749 0 0 1-1.06 0L4.22 6.78a.749.749 0 1 1 1.06-1.06l1.97 1.969Z</StreamGeometry>
+
+        <!-- switch, as in the music app settings: yellow track with a black knob when on, grey track when off -->
+        <SolidColorBrush x:Key="ToggleSwitchFillOn" Color="#FFFF00" />
+        <SolidColorBrush x:Key="ToggleSwitchFillOnPointerOver" Color="#DADA0B" />
+        <SolidColorBrush x:Key="ToggleSwitchFillOnPressed" Color="#FFFF80" />
+        <SolidColorBrush x:Key="ToggleSwitchKnobFillOn" Color="#000000" />
+        <SolidColorBrush x:Key="ToggleSwitchKnobFillOnPointerOver" Color="#000000" />
+        <SolidColorBrush x:Key="ToggleSwitchKnobFillOnPressed" Color="#000000" />
+        <SolidColorBrush x:Key="ToggleSwitchStrokeOn" Color="Transparent" />
+        <SolidColorBrush x:Key="ToggleSwitchStrokeOnPointerOver" Color="Transparent" />
+        <SolidColorBrush x:Key="ToggleSwitchStrokeOnPressed" Color="Transparent" />
+        <SolidColorBrush x:Key="ToggleSwitchFillOff" Color="#29FFFFFF" />
+        <SolidColorBrush x:Key="ToggleSwitchFillOffPointerOver" Color="#3DFFFFFF" />
+        <SolidColorBrush x:Key="ToggleSwitchFillOffPressed" Color="#52FFFFFF" />
+        <SolidColorBrush x:Key="ToggleSwitchKnobFillOff" Color="#E6E6E6" />
+        <SolidColorBrush x:Key="ToggleSwitchKnobFillOffPointerOver" Color="#FFFFFF" />
+        <SolidColorBrush x:Key="ToggleSwitchKnobFillOffPressed" Color="#FFFFFF" />
+        <SolidColorBrush x:Key="ToggleSwitchStrokeOff" Color="Transparent" />
+        <SolidColorBrush x:Key="ToggleSwitchStrokeOffPointerOver" Color="Transparent" />
+        <SolidColorBrush x:Key="ToggleSwitchStrokeOffPressed" Color="Transparent" />
+
+        <!-- log: a collapsible card of the same color as the others, no borders -->
+        <SolidColorBrush x:Key="ExpanderHeaderBackground" Color="#121212" />
+        <SolidColorBrush x:Key="ExpanderHeaderBackgroundPointerOver" Color="#1A1A1A" />
+        <SolidColorBrush x:Key="ExpanderHeaderBackgroundPressed" Color="#1A1A1A" />
+        <SolidColorBrush x:Key="ExpanderHeaderForeground" Color="#E6E6E6" />
+        <SolidColorBrush x:Key="ExpanderHeaderForegroundPointerOver" Color="#E6E6E6" />
+        <SolidColorBrush x:Key="ExpanderHeaderForegroundPressed" Color="#E6E6E6" />
+        <SolidColorBrush x:Key="ExpanderHeaderBorderBrush" Color="Transparent" />
+        <SolidColorBrush x:Key="ExpanderHeaderBorderBrushPointerOver" Color="Transparent" />
+        <SolidColorBrush x:Key="ExpanderHeaderBorderBrushPressed" Color="Transparent" />
+        <Thickness x:Key="ExpanderHeaderBorderThickness">0</Thickness>
+        <SolidColorBrush x:Key="ExpanderChevronBackground" Color="Transparent" />
+        <SolidColorBrush x:Key="ExpanderChevronBackgroundPointerOver" Color="Transparent" />
+        <SolidColorBrush x:Key="ExpanderChevronBackgroundPressed" Color="Transparent" />
+        <SolidColorBrush x:Key="ExpanderChevronBorderBrush" Color="Transparent" />
+        <SolidColorBrush x:Key="ExpanderChevronBorderBrushPointerOver" Color="Transparent" />
+        <SolidColorBrush x:Key="ExpanderChevronBorderBrushPressed" Color="Transparent" />
+        <SolidColorBrush x:Key="ExpanderChevronForeground" Color="#80FFFFFF" />
+        <SolidColorBrush x:Key="ExpanderChevronForegroundPointerOver" Color="#E6E6E6" />
+        <SolidColorBrush x:Key="ExpanderChevronForegroundPressed" Color="#E6E6E6" />
+        <SolidColorBrush x:Key="ExpanderContentBackground" Color="#121212" />
+        <SolidColorBrush x:Key="ExpanderContentBorderBrush" Color="Transparent" />
+        <Thickness x:Key="ExpanderContentDownBorderThickness">0</Thickness>
+        <Thickness x:Key="ExpanderContentPadding">20,0,20,16</Thickness>
+        <Thickness x:Key="ExpanderHeaderPadding">20,0,20,0</Thickness>
+        <x:Double x:Key="ExpanderMinHeight">48</x:Double>
+    </Window.Resources>
+
     <Window.Styles>
         <!-- the window size is fixed, so no Maximize button -->
         <Style Selector="CaptionButtons /template/ Button#PART_RestoreButton">
@@ -26,6 +80,62 @@
         <Style Selector="Button.icon PathIcon">
             <Setter Property="Foreground" Value="{DynamicResource YmAccent}" />
         </Style>
+        <!-- the update button shows the check result by the color of its arrows: green — the latest version, red — the check
+             failed; a newer release turns it into a yellow circle with a black download icon; the arrows turn while checking
+             (in the code) -->
+        <Style Selector="Button.icon.latest PathIcon">
+            <Setter Property="Foreground" Value="{DynamicResource YmSuccess}" />
+        </Style>
+        <Style Selector="Button.icon.failed PathIcon">
+            <Setter Property="Foreground" Value="{DynamicResource YmError}" />
+        </Style>
+        <Style Selector="Button.icon.accent PathIcon">
+            <Setter Property="Foreground" Value="#000000" />
+        </Style>
+        <!-- the same result in words next to the button, in the color of the icon; it fades out 10 s after the check
+             (a failed check then goes back to yellow) -->
+        <Style Selector="TextBlock#UpdateText">
+            <Setter Property="Transitions">
+                <Transitions><DoubleTransition Property="Opacity" Duration="0:0:0.4" /></Transitions>
+            </Setter>
+        </Style>
+        <Style Selector="TextBlock#UpdateText.latest">
+            <Setter Property="Foreground" Value="{DynamicResource YmSuccess}" />
+        </Style>
+        <Style Selector="TextBlock#UpdateText.failed">
+            <Setter Property="Foreground" Value="{DynamicResource YmError}" />
+        </Style>
+        <Style Selector="TextBlock#UpdateText.available">
+            <Setter Property="Foreground" Value="{DynamicResource YmAccent}" />
+        </Style>
+
+        <!-- cards on the black window, like content blocks in the music app -->
+        <Style Selector="Border.card">
+            <Setter Property="Background" Value="{DynamicResource YmBgContent}" />
+            <Setter Property="CornerRadius" Value="20" />
+        </Style>
+        <Style Selector="Expander">
+            <Setter Property="CornerRadius" Value="20" />
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+        </Style>
+        <!-- the chevron lines up with the chevrons of the lists above; its margin is set in the template, which beats a style -->
+        <Style Selector="Expander /template/ ToggleButton#ExpanderHeader /template/ Border#ExpandCollapseChevronBorder">
+            <Setter Property="RenderTransform" Value="translate(-12px, 0px)" />
+        </Style>
+        <!-- a settings row: the label on the left, the control on the right -->
+        <Style Selector="DockPanel.row">
+            <Setter Property="Margin" Value="20,0" />
+            <Setter Property="MinHeight" Value="64" />
+        </Style>
+        <Style Selector="DockPanel.row > TextBlock, DockPanel.row > StackPanel">
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+        <Style Selector="Rectangle.divider">
+            <Setter Property="Height" Value="1" />
+            <Setter Property="Margin" Value="20,0" />
+            <Setter Property="Fill" Value="{DynamicResource YmDivider}" />
+        </Style>
+
         <Style Selector="Ellipse#StatusDot">
             <Setter Property="Fill" Value="#4DFFFFFF" />
         </Style>
@@ -40,11 +150,15 @@
     </Window.Styles>
 
     <!-- the top 32 px are the title bar: the window caption buttons are drawn over the content -->
-    <StackPanel Margin="32,40,32,28" Spacing="22">
+    <StackPanel Margin="32,40,32,28" Spacing="16">
 
-        <DockPanel>
-            <!-- on the right: round icon buttons for help and the project page -->
+        <DockPanel Margin="0,0,0,8">
+            <!-- on the right: the update check, help and the project page -->
             <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" Spacing="10" VerticalAlignment="Center">
+                <TextBlock x:Name="UpdateText" Classes="secondary" FontSize="13" VerticalAlignment="Center" />
+                <Button x:Name="UpdateBtn" Classes="icon" Click="OnCheckUpdates">
+                    <PathIcon x:Name="UpdateIcon" Width="20" Height="20" />
+                </Button>
                 <Button x:Name="HelpBtn" Classes="icon" Click="OnHelp">
                     <TextBlock Text="?" FontSize="20" FontWeight="Bold" />
                 </Button>
@@ -55,46 +169,71 @@
             </StackPanel>
             <StackPanel Orientation="Horizontal" Spacing="14">
                 <Image Source="/Assets/logo.png" Width="52" Height="52" Margin="-4,0,0,0" RenderOptions.BitmapInterpolationMode="HighQuality" />
-                <TextBlock x:Name="TitleText" Classes="h1" VerticalAlignment="Center" />
-                <TextBlock x:Name="VersionText" Classes="secondary" VerticalAlignment="Center" Margin="0,6,0,0" />
+                <StackPanel VerticalAlignment="Center">
+                    <TextBlock x:Name="TitleText" Classes="h1" />
+                    <TextBlock x:Name="VersionText" Classes="secondary" FontSize="12" />
+                </StackPanel>
             </StackPanel>
         </DockPanel>
 
-        <Grid ColumnDefinitions="Auto,*,Auto,Auto" RowDefinitions="Auto,12,Auto,8,Auto,12,Auto,Auto">
-            <TextBlock x:Name="LangLabel" Grid.Row="0" Grid.Column="0" Classes="secondary" VerticalAlignment="Center" Margin="0,0,16,0" />
-            <ComboBox x:Name="LangBox" Grid.Row="0" Grid.Column="1" MinWidth="200" HorizontalAlignment="Left"
-                      SelectionChanged="OnLangChanged" />
+        <!-- the main block: what is happening now and the main action -->
+        <Border Classes="card" Padding="20">
+            <StackPanel Spacing="16">
+                <DockPanel>
+                    <Ellipse x:Name="StatusDot" Width="10" Height="10" VerticalAlignment="Top" Margin="0,6,12,0" />
+                    <TextBlock x:Name="StatusText" FontSize="15" FontWeight="Medium" TextWrapping="Wrap" LineHeight="22" />
+                </DockPanel>
+                <StackPanel Orientation="Horizontal" Spacing="10">
+                    <Button x:Name="LaunchBtn" Classes="accent" MinWidth="180" Click="OnLaunch" />
+                    <Button x:Name="TrayBtn" Click="OnToTray" />
+                </StackPanel>
+            </StackPanel>
+        </Border>
 
-            <TextBlock x:Name="SaveLabel" Grid.Row="2" Grid.Column="0" Classes="secondary" VerticalAlignment="Center" Margin="0,0,16,0" />
-            <ComboBox x:Name="SaveBox" Grid.Row="2" Grid.Column="1" MinWidth="200" HorizontalAlignment="Left"
-                      SelectionChanged="OnSaveModeChanged" />
-            <CheckBox x:Name="TrayLaunchBox" Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="3"
-                      IsCheckedChanged="OnTrayLaunchChanged" />
+        <!-- settings: one card, one row per setting -->
+        <Border Classes="card">
+            <StackPanel>
+                <StackPanel Margin="20,16,20,18" Spacing="10">
+                    <TextBlock x:Name="PathLabel" />
+                    <Grid ColumnDefinitions="*,Auto,Auto">
+                        <TextBox x:Name="PathBox" Margin="0,0,10,0" TextChanged="OnPathChanged" />
+                        <Button x:Name="FindBtn" Grid.Column="1" Margin="0,0,10,0" Click="OnFind" />
+                        <Button x:Name="BrowseBtn" Grid.Column="2" Click="OnBrowse" />
+                    </Grid>
+                    <TextBlock x:Name="PathError" IsVisible="False" Foreground="{DynamicResource YmError}"
+                               FontSize="12" Margin="16,0,0,0" TextWrapping="Wrap" />
+                </StackPanel>
+                <Rectangle Classes="divider" />
+                <DockPanel Classes="row">
+                    <ComboBox x:Name="LangBox" DockPanel.Dock="Right" Width="200" VerticalAlignment="Center"
+                              SelectionChanged="OnLangChanged" />
+                    <TextBlock x:Name="LangLabel" />
+                </DockPanel>
+                <Rectangle Classes="divider" />
+                <DockPanel Classes="row">
+                    <ComboBox x:Name="SaveBox" DockPanel.Dock="Right" Width="200" VerticalAlignment="Center"
+                              SelectionChanged="OnSaveModeChanged" />
+                    <StackPanel Spacing="2" Margin="0,0,16,0">
+                        <TextBlock x:Name="SaveLabel" />
+                        <TextBlock x:Name="SaveHint" Classes="secondary" FontSize="12" TextWrapping="Wrap" />
+                    </StackPanel>
+                </DockPanel>
+                <Rectangle Classes="divider" />
+                <DockPanel Classes="row">
+                    <!-- -12: the template keeps an empty 12 px column for the On/Off text; the track lines up with the lists -->
+                    <ToggleSwitch x:Name="TrayLaunchBox" DockPanel.Dock="Right" VerticalAlignment="Center" Margin="0,0,-12,0"
+                                  OnContent="{x:Null}" OffContent="{x:Null}" IsCheckedChanged="OnTrayLaunchChanged" />
+                    <TextBlock x:Name="TrayLaunchLabel" TextWrapping="Wrap" Margin="0,0,16,0" />
+                </DockPanel>
+            </StackPanel>
+        </Border>
 
-            <TextBlock x:Name="PathLabel" Grid.Row="6" Grid.Column="0" Classes="secondary" VerticalAlignment="Center" Margin="0,0,16,0" />
-            <TextBox x:Name="PathBox" Grid.Row="6" Grid.Column="1" Margin="0,0,10,0" TextChanged="OnPathChanged" />
-            <Button x:Name="FindBtn" Grid.Row="6" Grid.Column="2" Margin="0,0,10,0" Click="OnFind" />
-            <Button x:Name="BrowseBtn" Grid.Row="6" Grid.Column="3" Click="OnBrowse" />
-            <TextBlock x:Name="PathError" Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="3" IsVisible="False"
-                       Foreground="{DynamicResource YmError}" FontSize="12" Margin="16,6,0,0" TextWrapping="Wrap" />
-        </Grid>
-
-        <StackPanel Orientation="Horizontal" Spacing="10">
-            <Button x:Name="LaunchBtn" Classes="accent" MinWidth="180" Click="OnLaunch" />
-            <Button x:Name="TrayBtn" Click="OnToTray" />
-            <Button x:Name="QuitBtn" MinWidth="110" Click="OnQuit" />
-        </StackPanel>
-
-        <StackPanel Orientation="Horizontal" Spacing="10">
-            <Ellipse x:Name="StatusDot" Width="8" Height="8" VerticalAlignment="Center" />
-            <TextBlock x:Name="StatusText" Classes="secondary" TextWrapping="Wrap" MaxWidth="560" />
-        </StackPanel>
-
-        <Border Background="{DynamicResource YmBgContent}" CornerRadius="16" Padding="16,12">
+        <!-- the log is for troubleshooting: collapsed until needed, an error opens it -->
+        <Expander x:Name="LogExpander">
             <ScrollViewer x:Name="LogScroll" Height="170">
                 <SelectableTextBlock x:Name="LogText" Classes="secondary" TextWrapping="Wrap"
                                      FontFamily="Menlo,Consolas,monospace" FontSize="11.5" />
             </ScrollViewer>
-        </Border>
+        </Expander>
     </StackPanel>
 </Window>

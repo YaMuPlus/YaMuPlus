@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,6 +9,7 @@ using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Input;
 using Avalonia.Interactivity;
+using Avalonia.Media;
 using Avalonia.Platform.Storage;
 using Avalonia.Threading;
 using YaMuPlus.Core;
@@ -91,8 +93,10 @@ public partial class MainWindow : Window
         // the version comes from <Version> in the csproj; the build number tells builds of one version apart
         VersionText.Text = _loc.F("app_version", ("v", SingleInstance.Build.Ver.ToString(3)),
             ("build", SingleInstance.Build.Num.ToString()));
+        ShowUpdate();
         LangLabel.Text = _loc["app_lang"];
         SaveLabel.Text = _loc["app_save"];
+        SaveHint.Text = _loc["app_save_hint"];
         _langSwitch = true; // the list items are recreated; this is not a user choice
         SaveBox.ItemsSource = new[] { _loc["save_via_app"], _loc["save_via_wrapper"] };
         SaveBox.SelectedIndex = Settings.SaveViaApp ? 0 : 1;
@@ -101,9 +105,11 @@ public partial class MainWindow : Window
         BrowseBtn.Content = _loc["btn_browse"];
         FindBtn.Content = _loc["btn_find"];
         PathBox.Watermark = _loc["path_hint"];
-        QuitBtn.Content = _trayQuit.Header = _loc["btn_quit"];
+        _trayQuit.Header = _loc["btn_quit"];
+        LogExpander.Header = _loc["log_title"];
         TrayBtn.Content = _loc[OperatingSystem.IsMacOS() ? "btn_tray_mac" : "btn_tray"];
-        TrayLaunchBox.Content = _loc[OperatingSystem.IsMacOS() ? "chk_tray_launch_mac" : "chk_tray_launch"];
+        TrayLaunchLabel.Text = _loc[OperatingSystem.IsMacOS() ? "chk_tray_launch_mac" : "chk_tray_launch"];
+        AutomationProperties.SetName(TrayLaunchBox, TrayLaunchLabel.Text); // the label is a separate text
         _trayShow.Header = _loc["tray_show"];
         foreach (var (btn, key) in new[] { (HelpBtn, "tip_help"), (RepoBtn, "tip_github") })
         {
@@ -119,6 +125,70 @@ public partial class MainWindow : Window
     private async void OnHelp(object? sender, RoutedEventArgs e) => await new HelpWindow(_loc).ShowDialog(this);
 
     private async void OnRepo(object? sender, RoutedEventArgs e) => await Launcher.LaunchUriAsync(new Uri(RepoUrl));
+
+    private (Version Ver, string Page)? _update; // a newer release found by the check
+    private string _updState = "idle"; // idle, checking, latest, failed or available: the look and tooltip of the button
+    private IDisposable? _updTextFade; // hides the result text 10 s after the check
+
+    /// <summary>The update button shows the check result by its color and icon; the text next to it and the tooltip say it in words.</summary>
+    private void ShowUpdate()
+    {
+        foreach (var s in new[] { "latest", "failed" }) UpdateBtn.Classes.Set(s, s == _updState);
+        UpdateBtn.Classes.Set("accent", _updState == "available");
+        foreach (var s in new[] { "latest", "failed", "available" }) UpdateText.Classes.Set(s, s == _updState);
+        UpdateText.Text = _updState == "idle" ? "" : _loc.F("upd_" + _updState, ("v", _update?.Ver.ToString(3) ?? ""));
+        UpdateIcon.Data = (Geometry)Resources[_updState == "available" ? "IconDownload" : "IconSync"]!;
+        var tip = _loc.F("tip_upd_" + _updState, ("v", _update?.Ver.ToString(3) ?? ""));
+        ToolTip.SetTip(UpdateBtn, tip);
+        AutomationProperties.SetName(UpdateBtn, tip);
+    }
+
+    /// <summary>Asks GitHub for the latest release; once a newer one is found, the button opens its page.</summary>
+    private async void OnCheckUpdates(object? sender, RoutedEventArgs e)
+    {
+        if (_update is { } found) { await Launcher.LaunchUriAsync(new Uri(found.Page)); return; }
+        // not disabled while checking: a disabled button loses the keyboard focus and shows no tooltip
+        if (_updState == "checking") return;
+        _updState = "checking";
+        ShowUpdate();
+        _updTextFade?.Dispose();
+        UpdateText.IsVisible = true;
+        UpdateText.Opacity = 1;
+        // the icon turns while checking; a style animation of RotateTransform.Angle does not turn it in Avalonia 11.2
+        var turn = new RotateTransform();
+        var since = Stopwatch.StartNew();
+        UpdateIcon.RenderTransform = turn;
+        var spin = DispatcherTimer.Run(() => { turn.Angle = since.Elapsed.TotalSeconds * 360; return true; }, TimeSpan.FromMilliseconds(16));
+        var result = "failed";
+        try
+        {
+            var latest = await Updates.LatestAsync();
+            if (latest.Ver > new Version(SingleInstance.Build.Ver.ToString(3))) { _update = latest; result = "available"; }
+            else result = "latest";
+        }
+        catch (Exception ex) // async void: otherwise an exception crashes the app
+        {
+            _log.Info(_loc.F("log_upd_failed", ("err", ex.Message)));
+        }
+        // the arrows look the same every half turn (0.5 s): finish it instead of jumping back from any angle
+        await Task.Delay(TimeSpan.FromSeconds(0.5 - since.Elapsed.TotalSeconds % 0.5));
+        spin.Dispose();
+        UpdateIcon.RenderTransform = null;
+        _updState = result;
+        ShowUpdate();
+        // a newer release stays named until it is installed; otherwise the text goes after 10 s, out of the screen
+        // reader's reach too, and a failed check goes back to the start: a network hiccup is no lasting fault
+        if (result != "available")
+            _updTextFade = DispatcherTimer.RunOnce(() =>
+            {
+                UpdateText.Opacity = 0;
+                _updTextFade = DispatcherTimer.RunOnce(() =>
+                {
+                    UpdateText.IsVisible = false;
+                    if (_updState == "failed") { _updState = "idle"; ShowUpdate(); }
+                }, TimeSpan.FromSeconds(0.4)); // after the fade
+            }, TimeSpan.FromSeconds(10));
+    }
 
     private void OnToTray(object? sender, RoutedEventArgs e) => ToTray();
 
@@ -183,10 +253,11 @@ public partial class MainWindow : Window
         else Alert(_loc.F("st_hook_failed", ("ver", _launcher.AppVersion ?? "?")));
     }
 
-    /// <summary>The status says it; a hidden window (tray, menu bar) also shows a system notification.</summary>
+    /// <summary>The status says it and the log opens (the text refers to it); a hidden window (tray, menu bar) also shows a system notification.</summary>
     private void Alert(string text)
     {
         StatusText.Text = text;
+        LogExpander.IsExpanded = true;
         if (!IsVisible || WindowState == WindowState.Minimized) _os.Notify(this, "YaMu+", text);
     }
 
@@ -234,8 +305,6 @@ public partial class MainWindow : Window
         finally { UpdateLaunchState(); }
         if (Settings.TrayOnLaunch && _launcher.IsRunning) ToTray(); // the "minimize when the music app starts" setting
     }
-
-    private void OnQuit(object? sender, RoutedEventArgs e) => Close();
 
     protected override void OnClosing(WindowClosingEventArgs e)
     {
